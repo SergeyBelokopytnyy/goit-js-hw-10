@@ -1,0 +1,11 @@
+<div class='card'>
+  <div class='card-img-top'>
+    <img class='card-flag' src='{{0.flags.png}}' alt='Flag {{0.name.official}}' />
+    <h2 class='card-title'>{{0.name.official}}</h2>
+  </div>
+  <div class='card-body'>
+    <p><b>Capital:</b> {{0.capital}}</p>
+    <p><b>Population:</b> {{0.population}}</p>
+    <p><b>Languages:</b>{{#each 0.languages}}{{this}}{{#if @last}}{{else}}, {{/if}}{{/each}}</p>
+  </div>
+</div>

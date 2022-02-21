@@ -15,23 +15,28 @@ refs.inputSearch.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch() {
   const name = refs.inputSearch.value.trim();
+  if (name === '') {
+    remove();
+    return;
+  }
   // console.log(name);
   fetchCountries(name).then(renderCountryCard).catch(onFetchError);
 }
 
 function renderCountryCard(country) {
   const countryCount = Object.keys(country).length;
+  console.log(countryCount);
   if (countryCount > 10) {
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-  } else if (countryCount === 1) {
-    refs.countryList.innerHTML = '';
-    refs.countryInfo.innerHTML = '';
+  }
+  if (countryCount === 1) {
+    remove();
     console.log(countryCount);
     const markup = countryCard(country);
     refs.countryInfo.innerHTML = markup;
-  } else {
-    refs.countryInfo.innerHTML = '';
-    refs.countryList.innerHTML = '';
+  }
+  if (countryCount >= 2 && countryCount <= 10) {
+    remove();
     const markup = [];
     for (let count of country) {
       markup.push(countriesList(count));
@@ -41,6 +46,11 @@ function renderCountryCard(country) {
 }
 
 function onFetchError(error) {
-  // console.log(error);
+  console.log(error);
   Notiflix.Notify.failure('Oops, there is no country with that name');
+}
+
+function remove() {
+  refs.countryInfo.innerHTML = '';
+  refs.countryList.innerHTML = '';
 }
